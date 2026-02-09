@@ -2,7 +2,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import loginImg from '../../assets/login-img.png'
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
 
 
 
@@ -11,7 +13,7 @@ const Login = () => {
 
     const { signIn } = useContext(AuthContext);
 
-
+    const navigate = useNavigate()
     const handleLogin = event => {
         event.preventDefault();
         console.log('login page start');
@@ -26,7 +28,19 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user)
+                console.log(user);
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Login Successfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+                navigate('/')
+
+
             })
     }
 
@@ -105,14 +119,18 @@ const Login = () => {
 
     return (
         <div>
+
+            <Helmet>
+                <title>Bistro | Login</title>
+            </Helmet>
             <div className="hero py-16 bg-base-200 md:min-h-screen">
                 <div className="hero-content flex-col gap-16 lg:flex-row">
                     <div className="text-center md:w-1/2 hidden md:flex lg:text-left ">
                         <img src={loginImg} alt="" />
                     </div>
                     <div className="card bg-base-100 md:w-1/2  w-full md:max-w-sm shrink-0 shadow-2xl">
-                    
-                            <h1 className="text-5xl text-center mt-4 font-bold">Login now!</h1>
+
+                        <h1 className="text-2xl md:text-5xl text-center mt-4 font-bold">Login now!</h1>
 
                         <form onSubmit={handleLogin} className="card-body">
                             <fieldset className="fieldset">
@@ -159,7 +177,7 @@ const Login = () => {
 
                             </fieldset>
 
-                        <p className='text-center my-'> <small>New Here? <Link to='/signUp' className='text-red-600 underline'>Creat an Account.</Link> </small></p>
+                            <p className='text-center my-'> <small>New Here? <Link to='/signUp' className='text-red-600 underline'>Creat an Account.</Link> </small></p>
 
                         </form>
 

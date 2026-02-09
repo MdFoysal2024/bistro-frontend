@@ -1,10 +1,26 @@
+import { useContext } from 'react'
 import { FaCircleUser } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-
+import { AuthContext } from '../../../providers/AuthProvider'
+import userImg from '../../../assets/userImg.jpg'
+import { CiLogout } from 'react-icons/ci'
 
 
 
 const Navber = () => {
+
+
+    const { user, logOut } = useContext(AuthContext);
+    console.log('Current User:', user?.email)
+
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    }
+
+
 
     const navOptions = <>
 
@@ -42,9 +58,41 @@ const Navber = () => {
                         {navOptions}
                     </ul>
                 </div>
-                <Link to={'/login'} className="navbar-end">
-                    <FaCircleUser className='text-xl mr-4 md:text-3xl cursor-pointer'></FaCircleUser>
-                </Link>
+
+
+                <div className="navbar-end">
+
+                    {
+                        user ? <>
+                            <div className="dropdown dropdown-end">
+
+
+                                <div tabIndex={0} className="cursor-pointer m-1"><img className='w-10 rounded-full' src={userImg} alt="Image loading..." />
+                                </div>
+                                <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                    <li><a>Item 1</a></li>
+                                    <li>
+                                        <Link to="/login">
+                                            <button onClick={handleLogOut} className='text-white text-center flex items-center gap-2'><CiLogout className="text-2xl font-bold" />Log-Out</button>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </>
+                            :
+                            <>
+                                <Link to={'/login'} >
+                                    <FaCircleUser className='text-xl mr-4 md:text-3xl cursor-pointer'></FaCircleUser>
+                                </Link>
+                            </>
+                    }
+
+
+
+                </div>
+
             </div>
         </div>
     )

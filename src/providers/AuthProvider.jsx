@@ -23,10 +23,10 @@ const AuthProvider = ({ children }) => {
     //  User account login---->
     const signIn = (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(email, password);
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
-    
+
     // user account logout ------->
     const logOut = () => {
         setLoading(true);

@@ -2,23 +2,37 @@ import { Link } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import signUpImg from '../../assets/signup.png';
-
+import { Helmet } from 'react-helmet-async';
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
 
 
 const SignUp = () => {
-
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { creatUser } = useContext(AuthContext);
+    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     // watch input value by passing the name of it
     //console.log(watch("example"));
 
     const onSubmit = (data) => {
         console.log(data)
+        creatUser(data.email, data.password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser)
+            })
 
+
+        reset();   //-----------> form data reset
     }
 
     return (
         <div>
+
+            <Helmet>
+                <title> Bistro | Sign Up </title>
+            </Helmet>
+
             <div className="hero py-16 bg-base-200 md:min-h-screen">
                 <div className="hero-content flex-col gap-16 lg:flex-row">
                     <div className="text-center md:w-1/2 hidden md:flex lg:text-left ">
@@ -26,7 +40,7 @@ const SignUp = () => {
                     </div>
                     <div className="card bg-base-100 md:w-1/2  w-full md:max-w-sm shrink-0 shadow-2xl">
 
-                        <h1 className="text-5xl text-center mt-4 font-bold">Sign Up now!</h1>
+                        <h1 className=" text-2xl md:text-5xl text-center mt-4 font-bold">Sign Up now!</h1>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <fieldset className="fieldset">
@@ -59,11 +73,37 @@ const SignUp = () => {
                                     name='password'
                                     className="input"
                                     placeholder="Password"
-                                    {...register("password", { required: true })}
+                                    {...register("password", {
+                                        required: true,
+                                        maxLength: 20,
+                                        minLength: 6,
+                                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{6,20}$/
+                                    })}
+
                                 />
-                                {errors.password && <span className='text-red-500'>Password field is required</span>}
+
+                                {errors.password?.type === "required" && (
+                                    <p className="text-red-500">Password field is required</p>
+                                )}
+
+                                {/* minLength */}
+                                {errors.password?.type === "minLength" && (
+                                    <p className="text-red-500">Password minimum 6 characters</p>
+                                )}
 
 
+                                {/* maxLength */}
+                                {errors.password?.type === "maxLength" && (
+                                    <p className="text-red-500">Password maximum 20 characters</p>
+                                )}
+
+
+                                {/* Pattern (Strong Password Error) */}
+                                {errors.password?.type === "pattern" && (
+                                    <p className="text-red-500">
+                                        Password must contain uppercase, lowercase, number, and special character
+                                    </p>
+                                )}
 
 
 
