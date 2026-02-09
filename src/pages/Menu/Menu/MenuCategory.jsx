@@ -5,7 +5,7 @@ import MenuItem from "../../Shared/MenuItem/MenuItem"
 const MenuCategory = ({ item, coverImg, title, details }) => {
     return (
         <div className="my-24">
-
+ 
             {
                 title && <Cover img={coverImg} title={title} details={details}></Cover>
             }
