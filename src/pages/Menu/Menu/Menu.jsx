@@ -15,7 +15,7 @@ import MenuCategory from "./MenuCategory"
 const Menu = () => {
 
     const [menu] = useMenu();
-    console.log(menu.length)
+    //console.log(menu.length)
 
 
     const offered = menu.filter(item => item.category === "offered");

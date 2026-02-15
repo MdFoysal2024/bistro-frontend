@@ -8,10 +8,10 @@ const PopularItem = () => {
 
     //data  load by custom hooks--->
     const [menu] = useMenu();
-    console.log(menu.length)
+    //console.log(menu.length)
 
     const popular = menu.filter(item => item.category === "popular");
-    console.log(popular);
+    //console.log(popular);
 
 
     // *direct data  load*------------------------------------------------->

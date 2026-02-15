@@ -14,16 +14,16 @@ const Order = () => {
     const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks']
     const { category } = useParams()
     //category কে path: 'order/:category' থেকে ডিসটাকচার করা হইছে
-    console.log(category);
+    //console.log(category);
 
     const inisialIndex = categories.indexOf(category)
-    console.log(inisialIndex);
+    //console.log(inisialIndex);
 
     const [tabIndex, setTabIndex] = useState(inisialIndex);
 
 
     const [menu] = useMenu();
-    console.log(menu.length);
+    //console.log(menu.length);
 
     
     const dessert = menu.filter(item => item.category === "dessert");

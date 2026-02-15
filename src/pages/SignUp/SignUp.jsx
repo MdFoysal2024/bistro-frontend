@@ -1,29 +1,53 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import signUpImg from '../../assets/signup.png';
 import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 const SignUp = () => {
-    const { creatUser } = useContext(AuthContext);
+
+    const navigate = useNavigate()
+    const { creatUser, updateUserProfile } = useContext(AuthContext);
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     // watch input value by passing the name of it
     //console.log(watch("example"));
+
+
 
     const onSubmit = (data) => {
         console.log(data)
         creatUser(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
-                console.log(loggedUser)
+                console.log(loggedUser);
+
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        console.log('User Profile Updated');
+
+                        reset();   //-----------> form data reset
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "New Account Created Successfully.",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                        navigate('/')
+                    })
+                    .catch(error => console.log(error))
+
             })
 
 
-        reset();   //-----------> form data reset
+
     }
 
     return (
@@ -44,6 +68,17 @@ const SignUp = () => {
 
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <fieldset className="fieldset">
+
+                                <label className="label">Photo URL</label>
+                                <input
+                                    type="txet"
+                                    name='photoURL'
+                                    className="input"
+                                    placeholder=" Photo URL"
+                                    {...register("photoURL", { required: true })}
+                                />
+                                {errors.photoURL && <span className='text-red-500'>Photo URL field is required</span>}
+
 
                                 <label className="label">Name</label>
                                 <input

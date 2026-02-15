@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import loginImg from '../../assets/login-img.png'
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
-import { AuthContext } from '../../providers/AuthProvider';
-import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { Link, replace, useLocation, useNavigate } from 'react-router-dom';
+import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
 import Swal from 'sweetalert2';
+import loginImg from '../../assets/login-img.png';
+import { AuthContext } from '../../providers/AuthProvider';
 
 
 
@@ -13,7 +13,12 @@ const Login = () => {
 
     const { signIn } = useContext(AuthContext);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে 
+    const from = location.state?.from?.pathname || "/";
+
     const handleLogin = event => {
         event.preventDefault();
         console.log('login page start');
@@ -37,9 +42,9 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                
-                navigate('/')
 
+                navigate(from, { replace: true })
+                // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে 
 
             })
     }

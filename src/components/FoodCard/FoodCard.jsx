@@ -2,6 +2,11 @@
 const FoodCard = ({ item }) => {
     const { name, recipe, image, price } = item;
 
+    const handleAddToCart = food => {
+        console.log(food)
+    }
+
+
 
     return (
         <div>
@@ -18,7 +23,9 @@ const FoodCard = ({ item }) => {
 
 
                     <div className=' flex justify-center mt-10 mx-auto '>
-                        <button className='btn btn-outline bg-slate-700 hover:bg-slate-400  hover:text-black border-0 border-b-4 rounded-lg'>ADD TO CART</button>
+                        <button
+                            onClick={()=>handleAddToCart(item)}
+                            className='btn btn-outline bg-slate-700 hover:bg-slate-400  hover:text-black border-0 border-b-4 rounded-lg'>ADD TO CART</button>
                     </div>
                 </div>
             </div>

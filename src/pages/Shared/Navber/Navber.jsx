@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../providers/AuthProvider'
 import userImg from '../../../assets/userImg.jpg'
 import { CiLogout } from 'react-icons/ci'
+import { TiShoppingCart } from 'react-icons/ti'
 
 
 
@@ -34,6 +35,8 @@ const Navber = () => {
 
         <li className='hover:text-yellow-400 hover:font-bold hover:underline'><Link to={'/contact'}>Contact</Link></li>
 
+        <li className='hover:text-yellow-400 hover:font-bold hover:underline'><Link to={'/secret'}>Secret</Link></li>
+
     </>
 
 
@@ -62,21 +65,40 @@ const Navber = () => {
 
                 <div className="navbar-end">
 
+                    <div className='mr-4 '>
+                      
+                        <Link  to='/' className="">
+                            <div className="badge badge-sm badge-secondary ml-4">0</div>
+                             <TiShoppingCart  className='text-3xl cursor-pointer' />
+                        </Link>
+                    </div>
+
                     {
                         user ? <>
                             <div className="dropdown dropdown-end">
 
 
-                                <div tabIndex={0} className="cursor-pointer m-1"><img className='w-10 rounded-full' src={userImg} alt="Image loading..." />
+                                <div tabIndex={0} className="cursor-pointer m-1"><img className='w-12 h-12 rounded-full border-2 border-white ' src={user?.photoURL} alt="Image loading..." />
                                 </div>
-                                <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                                    <li><a>Item 1</a></li>
-                                    <li>
+
+
+                                <div tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+
+                                    <div className='flex flex-col items-center my-6'>
+                                        <img className='w-24 h-24 rounded-full  border-2 border-white' src={user?.photoURL} alt="" />
+                                        <h3 className='text-2xl font-semibold'>{user?.displayName}</h3>
+                                        <p className='text-sm'>{user?.email}</p>
+                                    </div>
+
+                                    <p><a>Profile</a></p>
+                                    <p><a>Dashboard</a></p>
+                                    <p><a>Settings</a></p>
+                                    <p>
                                         <Link to="/login">
-                                            <button onClick={handleLogOut} className='text-white text-center flex items-center gap-2'><CiLogout className="text-2xl font-bold" />Log-Out</button>
+                                            <button onClick={handleLogOut} className='text-white text-center flex items-center gap-2 btn'><CiLogout className="text-2xl font-bold" />Log-Out</button>
                                         </Link>
-                                    </li>
-                                </ul>
+                                    </p>
+                                </div>
                             </div>
 
 

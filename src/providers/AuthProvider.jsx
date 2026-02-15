@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react"
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth/cordova";
 
@@ -17,6 +17,14 @@ const AuthProvider = ({ children }) => {
     const creatUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
+    }
+
+
+    // User Profile updated!
+    const updateUserProfile = (name, photo) => {
+       return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+        })
     }
 
 
@@ -65,7 +73,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            console.log('Current User', currentUser)
+            console.log('Current User from auth:', currentUser)
 
             setLoading(false);
         })
@@ -85,7 +93,8 @@ const AuthProvider = ({ children }) => {
         loading,
         creatUser,
         signIn,
-        logOut
+        logOut,
+        updateUserProfile
 
     }
 
