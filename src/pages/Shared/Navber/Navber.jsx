@@ -5,12 +5,13 @@ import { AuthContext } from '../../../providers/AuthProvider'
 import userImg from '../../../assets/userImg.jpg'
 import { CiLogout } from 'react-icons/ci'
 import { TiShoppingCart } from 'react-icons/ti'
+import useCart from '../../../hooks/useCart'
 
 
 
 const Navber = () => {
 
-
+    const [cart] = useCart();
     const { user, logOut } = useContext(AuthContext);
     console.log('Current User:', user?.email)
 
@@ -66,10 +67,10 @@ const Navber = () => {
                 <div className="navbar-end">
 
                     <div className='mr-4 '>
-                      
-                        <Link  to='/' className="">
-                            <div className="badge badge-sm badge-secondary ml-4">0</div>
-                             <TiShoppingCart  className='text-3xl cursor-pointer' />
+
+                        <Link to='/dashboard/myCart' className="">
+                            <div className="badge badge-sm badge-secondary ml-4">+{cart.length}</div>
+                            <TiShoppingCart className='text-3xl cursor-pointer' />
                         </Link>
                     </div>
 
@@ -90,9 +91,9 @@ const Navber = () => {
                                         <p className='text-sm'>{user?.email}</p>
                                     </div>
 
-                                    <p><a>Profile</a></p>
-                                    <p><a>Dashboard</a></p>
-                                    <p><a>Settings</a></p>
+                                    <p>Profile</p>
+                                    <p> <Link to='/dashboard'>Dashboard</Link>  </p>
+                                    <p>Settings</p>
                                     <p>
                                         <Link to="/login">
                                             <button onClick={handleLogOut} className='text-white text-center flex items-center gap-2 btn'><CiLogout className="text-2xl font-bold" />Log-Out</button>

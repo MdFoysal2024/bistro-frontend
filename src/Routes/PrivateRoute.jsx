@@ -7,12 +7,8 @@ const PrivateRoute = ({ children }) => {
 
     const { user, loading } = useContext(AuthContext);
 
-
-
     const location = useLocation();
-    // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে 
-
-
+    // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে এবং location ব্যবহার করার জন্য state কে ব্যবহার করতে হবে।
 
     if (loading) {
         return <div className="flex items-center py-24 justify-center text-center">

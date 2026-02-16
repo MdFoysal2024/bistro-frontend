@@ -14,10 +14,13 @@ const Login = () => {
     const { signIn } = useContext(AuthContext);
 
     const navigate = useNavigate();
+    
+    // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে এবং location ব্যবহার করার জন্য state কে ব্যবহার করতে হবে।
     const location = useLocation();
-
-    // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে 
     const from = location.state?.from?.pathname || "/";
+
+    console.log('state in the location', location?.state)
+
 
     const handleLogin = event => {
         event.preventDefault();
