@@ -6,6 +6,8 @@ import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 
 const SignUp = () => {
@@ -13,7 +15,7 @@ const SignUp = () => {
     const navigate = useNavigate()
     const { creatUser, updateUserProfile } = useContext(AuthContext);
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
-
+    const axiosPublic = useAxiosPublic()
     // watch input value by passing the name of it
     //console.log(watch("example"));
 
@@ -21,6 +23,8 @@ const SignUp = () => {
 
     const onSubmit = (data) => {
         console.log(data)
+
+
         creatUser(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
@@ -30,17 +34,38 @@ const SignUp = () => {
                     .then(() => {
                         console.log('User Profile Updated');
 
-                        reset();   //-----------> form data reset
 
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "New Account Created Successfully.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                        }
 
-                        navigate('/')
+                        // use axiosSecure from custom hook ---->
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                console.log(res.data);
+                                if (res.data.insertedId) {
+
+                                    console.log('User info added to the database')
+
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "New Account Created Successfully.",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+                                    reset();       //-----------> form data reset
+                                    navigate('/')  //-----------> navigate to home page
+
+
+                                }
+
+                            })
+
+
+
                     })
                     .catch(error => console.log(error))
 
@@ -148,7 +173,7 @@ const SignUp = () => {
                                 <input className="btn btn-neutral mt-4" type="submit" value={'Sign Up'} />
 
                             </fieldset>
-
+                            <SocialLogin ></SocialLogin>
                             <p className='text-center my-4'> <small>Already Have an account? <Link to='/login' className='text-red-600 underline'>Please Login.</Link> </small></p>
 
                         </form>

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react"
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth/cordova";
 
@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
-
+    const googleProvider = new GoogleAuthProvider();
     // creat new User account---->
     const creatUser = (email, password) => {
         setLoading(true);
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
 
     // User Profile updated!
     const updateUserProfile = (name, photo) => {
-       return updateProfile(auth.currentUser, {
+        return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
         })
     }
@@ -33,7 +33,11 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
-
+    // Login with gogle
+    const googleSignIn = () => {
+        setLoading(true);
+        return signInWithPopup(auth, googleProvider)
+    }
 
     // user account logout ------->
     const logOut = () => {
@@ -93,8 +97,9 @@ const AuthProvider = ({ children }) => {
         loading,
         creatUser,
         signIn,
+        googleSignIn,
         logOut,
-        updateUserProfile
+        updateUserProfile,
 
     }
 

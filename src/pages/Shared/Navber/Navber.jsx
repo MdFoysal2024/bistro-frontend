@@ -86,13 +86,13 @@ const Navber = () => {
                                 <div tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
 
                                     <div className='flex flex-col items-center my-6'>
-                                        <img className='w-24 h-24 rounded-full  border-2 border-white' src={user?.photoURL} alt="" />
+                                        <img className='w-24 h-24 rounded-full  border-2 border-white' src={user?.photoURL || "/default-avatar.png"} alt="" />
                                         <h3 className='text-2xl font-semibold'>{user?.displayName}</h3>
                                         <p className='text-sm'>{user?.email}</p>
                                     </div>
 
                                     <p>Profile</p>
-                                    <p> <Link to='/dashboard'>Dashboard</Link>  </p>
+                                    <p> <Link to='/dashboard/userHome'>Dashboard</Link>  </p>
                                     <p>Settings</p>
                                     <p>
                                         <Link to="/login">

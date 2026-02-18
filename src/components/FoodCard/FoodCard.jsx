@@ -59,9 +59,10 @@ const FoodCard = ({ item }) => {
                             icon: "success",
                             draggable: true
                         });
-                        
+
                         // auto reload data by refetch(),
-                        refetch()
+                        refetch();
+                        navigate('/dashboard/myCart')
                     }
 
                 })

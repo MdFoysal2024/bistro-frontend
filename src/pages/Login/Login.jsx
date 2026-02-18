@@ -5,6 +5,7 @@ import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-s
 import Swal from 'sweetalert2';
 import loginImg from '../../assets/login-img.png';
 import { AuthContext } from '../../providers/AuthProvider';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 
 
@@ -14,7 +15,7 @@ const Login = () => {
     const { signIn } = useContext(AuthContext);
 
     const navigate = useNavigate();
-    
+
     // যে প্রাইভেট পেজ থেকে লগিন পেজে আসবে লগিন এরপর সরাসরি ঐ পেজে যেতে এবং location ব্যবহার করার জন্য state কে ব্যবহার করতে হবে।
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -185,8 +186,8 @@ const Login = () => {
 
                             </fieldset>
 
+                            <SocialLogin ></SocialLogin>
                             <p className='text-center my-'> <small>New Here? <Link to='/signUp' className='text-red-600 underline'>Creat an Account.</Link> </small></p>
-
                         </form>
 
 
